@@ -2,16 +2,31 @@
  *
  * SIO 2023-2024 - Labo 3 : Répartition équitable
  *
- * Groupe :
+ * Groupe : D
  *
- * Nom et prénom :
+ * Nom et prénom : Guggisberg Simon
  *
- * Nom et prénom :
+ * Nom et prénom : Steiner Jeremiah
  *
 ****************************************************** */
 
+/*
+ * Modélisation :
+ */
+ 
+set N := 1..nbrObjet;
+set M := 1..nbrDeGroupe;
+
+set valueForObject within N; #  TODO c'est faux là 
+
+var {(i,j) in N}, integer;#  TODO c'est faux là 
 
 
+/*
+ * Contraintes :
+ */
+ 
+ 
 
 /* ******************************************************
  *
@@ -24,13 +39,13 @@ data;
 # Jeu de données n° 1
 
 /* Nombre de groupes/personnes/boîtes */
-param ???? := 4;
+param nbrDeGroupe := 4;
 
 /* Nombre d'objets à répartir  */
-param ???? := 13;
+param nbrObjet := 13;
 
 /* Valeur des objets à répartir  */
-param ???? :=
+param valueForObject :=
 	 1	2
 	 2	5
 	 3	8
