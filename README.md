@@ -16,20 +16,21 @@ Nous avons $n$ objets.
 
 Nous avons $m$ boîtes.
 
-$i = 1,..., n$
+Chaque objet a une valeur entière et positive :
 
-Chaque objet a une valeur entière et positive $v_i$ où $v_1 \in \mathbb{N}$
-
+$v_i$ où $v_i \in \mathbb{N}$ où $i = 1,..., n$
 
 ### Variables de décision
 
-Chaque objet est placé dans une boîte. Cette affiliation est dénoté par une valeur entière et strictement positive $w_i$ où $w_i = 1,...,m$
+Chaque objet est placé dans une boîte. Cette affiliation est dénoté par une valeur binaire égale à $1$ si l'objet i se trouve dans la boîte j avec :
+
+$x_{ij}$ où $j = 1, ..., m$ et $i = 1, ..., n$
 
 ### Fonction objective
 
 La somme des valeurs pour une boîte $j$ est donné ainsi pour $j=1, ..., m$ :
 
-$s_j = \sum_{i=1}^{n}v_i$ où $i = w_i$
+$s_j = \sum_{i=1}^{n}v_{i}x_{ij}$, $\forall_j = 1, ..., m$
 
 De plus la moyenne des valeurs par boîte est donnée par :
 
@@ -39,21 +40,27 @@ Nous cherchons à minimiser la différence entre la somme des valeurs d'objets c
 
 $min\sum_{j=1}^{m}|s_j - \hat{v}|$
 
+Ensemble ces équations peuvent s'écrire ainsi :
+
+$min\sum_{j=1}^{m}|(\sum_{i=1}^{n}v_{i}x_{ik}) - \frac{1}{m}\sum_{i=1}^{n} v_i|$, $\forall_k = 1, ..., m$
+
 ### Contraintes
 
 $m$ est plus grand ou égal à 1, sans quoi le problème n'aurait pas de sens avec $m = 0$
 
 $m \ge 1$
 
-Chaque affiliation $w_i$ est comprise entre 1 et $m$. Il n'est pas possible qu'un objet ne soit pas placé dans une boîte ou qu'il soit placé dans une boîte non existante.
-
-$w_i > 0$
-
-$w_i \le m$
-
 Les valeurs $v_i$ sont entières et positives.
 
-$v_i \ge 0$
+$v_i \ge 0$, $\forall_i = 1, ..., n$
+
+Les variables $x_{ij}$ sont binaires
+
+$x_{ij} \in \{0,1\}$, $\forall_i = 1, ..., n$, $\forall_j = 1, ..., m$
+
+Chaque objet est présent dans une seule boîte
+
+$\sum_{j=1}^{m}x_{ij} = 1$, $\forall_i = 1, ..., n$
 
 ## Résolution
 
