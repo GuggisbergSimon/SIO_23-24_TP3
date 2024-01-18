@@ -14,8 +14,9 @@
  * Modélisation :
  */
  
-set N := 1..nbrObjet;
-set M := 1..nbrDeGroupe;
+set N := 1..nbrObjet; # tableau des indices des objets
+set W := 1..nbrObjet; # tableau des boite lié à chaque object 
+# TODO : init à 0
 
 set valueForObject within N; #  TODO c'est faux là 
 
@@ -26,7 +27,13 @@ var {(i,j) in N}, integer;#  TODO c'est faux là
  * Contraintes :
  */
  
+ # tous les objets doivent être dans 1 et 1 seule boîte
  
+ /*
+  * Fonction Objectif
+  */
+ 
+ minimize sum{j in W}
 
 /* ******************************************************
  *
@@ -66,13 +73,13 @@ param valueForObject :=
 # Jeu de données n° 2
 
 # /* Nombre de groupes/personnes/boîtes */
-# param ???? := 4;
+# param nbrDeGroupe := 4;
 
 # /* Nombre d'objets à répartir  */
-# param ???? := 14;
+# param nbrObjet := 14;
 
 # /* Valeur des objets à répartir  */
-# param ???? :=
+# param valueForObject :=
 # 	 1	1
 # 	 2	2
 # 	 3	3
