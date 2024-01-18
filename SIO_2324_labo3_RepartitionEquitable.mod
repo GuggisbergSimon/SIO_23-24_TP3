@@ -13,27 +13,41 @@
 /*
  * Modélisation :
  */
- 
-set N := 1..nbrObjet; # tableau des indices des objets
-set W := 1..nbrObjet; # tableau des boite lié à chaque object 
-# TODO : init à 0
 
-set valueForObject within N; #  TODO c'est faux là 
+# tableau des indices des objets
+set N := 1..nbObject;
 
-var {(i,j) in N}, integer;#  TODO c'est faux là 
+# tableau des indices des boîtes
+set M := 1..nbBox;
 
+# valeur attribué à chaque objet
+set objectValues within N, integer >= 0;
+
+# valeur binaire pour un couple boîte - objet
+var isObjectInBox{(i,j) in N cross M}, binary;
 
 /*
  * Contraintes :
  */
- 
- # tous les objets doivent être dans 1 et 1 seule boîte
- 
+
+# le nombre des boîtes n'est pas nul ni négatif
+subject to IsNbBoxStrictlyPositive:
+	nbBox >= 1;
+
+# toutes les valeurs sont positives
+subject to IsValuePositive{i in N}:
+	objectsValues[i] >= 0;
+
+# tous les objets doivent être dans 1 et 1 seule boîte
+subject to IsInSingleBox{i in N}:
+	sum{j in M} x[i, j] = 1;
+
  /*
   * Fonction Objectif
   */
- 
- minimize sum{j in W}
+
+minimize Average{k in M}
+	sum{j in M} abs(sum{i in N} v[i] * x[i, k] - 1/m * sum{i in n} v[i]);
 
 /* ******************************************************
  *
@@ -46,13 +60,13 @@ data;
 # Jeu de données n° 1
 
 /* Nombre de groupes/personnes/boîtes */
-param nbrDeGroupe := 4;
+param nbBox := 4;
 
 /* Nombre d'objets à répartir  */
-param nbrObjet := 13;
+param nbObject := 13;
 
 /* Valeur des objets à répartir  */
-param valueForObject :=
+param objectValues :=
 	 1	2
 	 2	5
 	 3	8
@@ -73,13 +87,13 @@ param valueForObject :=
 # Jeu de données n° 2
 
 # /* Nombre de groupes/personnes/boîtes */
-# param nbrDeGroupe := 4;
+# param nbBox := 4;
 
 # /* Nombre d'objets à répartir  */
-# param nbrObjet := 14;
+# param nbObject := 14;
 
 # /* Valeur des objets à répartir  */
-# param valueForObject :=
+# param objectValues :=
 # 	 1	1
 # 	 2	2
 # 	 3	3
