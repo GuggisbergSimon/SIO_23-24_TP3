@@ -1,4 +1,8 @@
+<div style="text-align: justify">
+
 # SIO_23-24_TP3
+
+## Informations
 
 Groupe : D
 
@@ -16,9 +20,6 @@ $i = 1,..., n$
 
 Chaque objet a une valeur entière et positive $v_i$ où $v_1 \in \mathbb{N}$
 
-De plus la moyenne des valeurs est donnée par :
-
-$\hat{v} = \frac{1}{m}\sum_{i=1}^{n} v_i$
 
 ### Variables de décision
 
@@ -26,12 +27,17 @@ Chaque objet est placé dans une boîte. Cette affiliation est dénoté par une 
 
 ### Fonction objective
 
-Nous cherchons à minimiser la différence entre chaque
-//TODO
+La somme des valeurs pour une boîte $j$ est donné ainsi pour $j=1, ..., m$ :
 
-$w_{sum} = \sum_{i=1}^{n}v_i$ où $i = w_i$
+$s_j = \sum_{i=1}^{n}v_i$ où $i = w_i$
 
-$min\sum_{i=1}^{m}|w_i - \hat{v}|$
+De plus la moyenne des valeurs par boîte est donnée par :
+
+$\hat{v} = \frac{1}{m}\sum_{i=1}^{n} v_i$
+
+Nous cherchons à minimiser la différence entre la somme des valeurs d'objets contenus dans une boîte et la manière optimale de répartir les objets si ils n'étaient pas entier, soit la moyenne des valeurs par boîte.
+
+$min\sum_{j=1}^{m}|s_j - \hat{v}|$
 
 ### Contraintes
 
@@ -48,3 +54,15 @@ $w_i \le m$
 Les valeurs $v_i$ sont entières et positives.
 
 $v_i \ge 0$
+
+## Résolution
+
+### Gusek
+
+goes brrr
+
+## Conclusion
+
+that was ~~not~~ fun
+
+</div>
