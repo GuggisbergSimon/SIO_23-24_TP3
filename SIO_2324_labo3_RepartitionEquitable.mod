@@ -15,39 +15,56 @@
  */
 
 # tableau des indices des objets
-set N := 1..nbObject;
+set N;
 
 # tableau des indices des boîtes
-set M := 1..nbBox;
+set M;
 
 # valeur attribué à chaque objet
-set objectValues within N, integer >= 0;
+param objectValues{N};
+
+param nbBox;
+
+param nbObject;
 
 # valeur binaire pour un couple boîte - objet
-var isObjectInBox{(i,j) in N cross M}, binary;
+var isObjectInBox{N, M}, binary;
 
 /*
  * Contraintes :
  */
 
 # le nombre des boîtes n'est pas nul ni négatif
-subject to IsNbBoxStrictlyPositive:
-	nbBox >= 1;
+#subject to IsNbBoxStrictlyPositive:
+#	nbBox >= 1;
 
 # toutes les valeurs sont positives
-subject to IsValuePositive{i in N}:
-	objectsValues[i] >= 0;
+#subject to IsValuePositive{i in N}:
+#	objectsValues[i] >= 0;
 
 # tous les objets doivent être dans 1 et 1 seule boîte
 subject to IsInSingleBox{i in N}:
-	sum{j in M} x[i, j] = 1;
+	sum{j in M} isObjectInBox[i, j] = 1;
 
  /*
   * Fonction Objectif
   */
+#minimize Average{k in M}
+#    sum{j in M} abs(sum{i in N} objectValues[i] * isObjectInBox[i, k] - 1/nbBox * sum{i in N} objectValues[i]);
 
-minimize Average{k in M}
-	sum{j in M} abs(sum{i in N} v[i] * x[i, k] - 1/m * sum{i in n} v[i]);
+solve;
+
+# Imprime les résultats de chaque objet par boîte
+for {i in M} {
+    printf "Box %d :", i;
+    for {j in N} {
+        printf {0..0: isObjectInBox[j, i] = 0} " %d", j;
+    }
+    printf "\n";
+}
+
+#minimize Average{k in M}
+#    sum{i in N} abs(objectValues[i] * isObjectInBox[i, k] - 1/nbBox * sum{j in M} objectValues[j]);
 
 /* ******************************************************
  *
@@ -87,13 +104,13 @@ param objectValues :=
 # Jeu de données n° 2
 
 # /* Nombre de groupes/personnes/boîtes */
-# param nbBox := 4;
+#param nbBox := 4;
 
 # /* Nombre d'objets à répartir  */
-# param nbObject := 14;
+#param nbObject := 14;
 
 # /* Valeur des objets à répartir  */
-# param objectValues :=
+#param objectValues :=
 # 	 1	1
 # 	 2	2
 # 	 3	3
@@ -110,5 +127,7 @@ param objectValues :=
 # 	14	 14
 # ;
 
+set N := 1..nbObject;
+set M := 1..nbBox;
 
 end;
