@@ -14,11 +14,13 @@
  * Modélisation :
  */
 
+# TODO find syntax to use nbBox and nbObject from data
+
 # tableau des indices des objets
-set N;
+set N := 1..13;
 
 # tableau des indices des boîtes
-set M;
+set M := 1..4;
 
 # valeur attribué à chaque objet
 param objectValues{N};
@@ -49,7 +51,7 @@ subject to IsInSingleBox{i in N}:
  /*
   * Fonction Objectif
   */
-#minimize Average{k in M}
+#minimize Average{k in M}:
 #    sum{j in M} abs(sum{i in N} objectValues[i] * isObjectInBox[i, k] - 1/nbBox * sum{i in N} objectValues[i]);
 
 solve;
@@ -58,7 +60,7 @@ solve;
 for {i in M} {
     printf "Box %d :", i;
     for {j in N} {
-        printf {0..0: isObjectInBox[j, i] = 0} " %d", j;
+        printf {0..0: isObjectInBox[j, i] = 1} " %d", j;
     }
     printf "\n";
 }
@@ -127,7 +129,7 @@ param objectValues :=
 # 	14	 14
 # ;
 
-set N := 1..nbObject;
-set M := 1..nbBox;
+#set N := 1..nbObject;
+#set M := 1..nbBox;
 
 end;
