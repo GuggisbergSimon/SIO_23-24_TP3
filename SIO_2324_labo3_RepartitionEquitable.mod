@@ -1,72 +1,68 @@
 /* ******************************************************
  *
- * SIO 2023-2024 - Labo 3 : Répartition équitable
+ * SIO 2023-2024 - Labo 3 : Rï¿½partition ï¿½quitable
  *
  * Groupe : D
  *
- * Nom et prénom : Guggisberg Simon
+ * Nom et prï¿½nom : Guggisberg Simon
  *
- * Nom et prénom : Steiner Jeremiah
+ * Nom et prï¿½nom : Steiner Jeremiah
  *
 ****************************************************** */
 
 /*
- * Modélisation :
+ * Modï¿½lisation :
  */
+param nbBox; # nombre de box (section data)
+param nbObject; # nombre d'objet à répartir (section data)
 
-# TODO find syntax to use nbBox and nbObject from data
+set objectsIndexes := 1..nbObject; # tableau des indices des objets
+set boxesIndexes := 1..nbBox; # tableau des indices des boï¿½tes
 
-# tableau des indices des objets
-set N := 1..13;
+param objectValues{objectsIndexes}; # valeur attribuï¿½ ï¿½ chaque objet
 
-# tableau des indices des boîtes
-set M := 1..4;
+var isObjectInBox{objectsIndexes, boxesIndexes}, binary; # valeur binaire pour un couple boï¿½te - objet
 
-# valeur attribué à chaque objet
-param objectValues{N};
-
-param nbBox;
-
-param nbObject;
-
-# valeur binaire pour un couple boîte - objet
-var isObjectInBox{N, M}, binary;
+var auxiliaryVarToMinimize; # Variable auxiliaire pour le minimum
 
 /*
  * Contraintes :
  */
 
-# le nombre des boîtes n'est pas nul ni négatif
-#subject to IsNbBoxStrictlyPositive:
-#	nbBox >= 1;
+# tous les objets doivent ï¿½tre dans 1 et 1 seule boï¿½te
+subject to OneBoxPerObject{i in objectsIndexes}:
+    # on sommes les appartenance de chaque objets au boîtes pour vérifier qu'il  sont dans une seule
+    sum{j in boxesIndexes} isObjectInBox[i, j] = 1;
 
-# toutes les valeurs sont positives
-#subject to IsValuePositive{i in N}:
-#	objectsValues[i] >= 0;
+# z est la somme minimum entre toute les boîtes
+subject to MinimizeTotalConstraint{j in boxesIndexes}:
+    # on multiplie la valeur de l'objet par 0 ou 1 selon s'il est dans la boite courante
+    auxiliaryVarToMinimize <= sum{i in objectsIndexes} objectValues[i] * isObjectInBox[i, j];
 
-# tous les objets doivent être dans 1 et 1 seule boîte
-subject to IsInSingleBox{i in N}:
-	sum{j in M} isObjectInBox[i, j] = 1;
+/*
+* Fonction Objectif
+*/
 
- /*
-  * Fonction Objectif
-  */
-#minimize Average{k in M}:
-#    sum{j in M} abs(sum{i in N} objectValues[i] * isObjectInBox[i, k] - 1/nbBox * sum{i in N} objectValues[i]);
+# maximize t, the sub total for each box who's the minimum
+maximize MinimizeTotal: auxiliaryVarToMinimize;
 
-solve;
+solve; # on demande de resoudre le problème
 
-# Imprime les résultats de chaque objet par boîte
-for {i in M} {
-    printf "Box %d :", i;
-    for {j in N} {
-        printf {0..0: isObjectInBox[j, i] = 1} " %d", j;
-    }
-    printf "\n";
-}
-
-#minimize Average{k in M}
-#    sum{i in N} abs(objectValues[i] * isObjectInBox[i, k] - 1/nbBox * sum{j in M} objectValues[j]);
+# Imprime les rï¿½sultats de chaque objet par boï¿½te
+# affiche une ligne avec le nombre de box et la sommes totales des valeurs
+printf "\n%d Boxes, total :%d: id(value) :\n", nbBox, sum{j in objectsIndexes} objectValues[j]; 
+# on boucle sur les indices des boîtes
+for {i in boxesIndexes} {
+    # début des affichages de chaque ligne avec l'indice de la boite ainsi que le sous-total de celle-ci
+    printf "Box %d subtotal : %d: ", i, sum{j in objectsIndexes: isObjectInBox[j, i] = 1} objectValues[j];
+    # on boucle sur les indices des objets
+    for {j in objectsIndexes} {
+        # on affiche l'indice de l'objet et la valeur de celui-ci 
+        printf {0..0: isObjectInBox[j, i] = 1} " %d(%d)", j, objectValues[j];
+    } # on fini le for (à bha fallait pas demander un commentaire sur chaque ligne de code)
+    printf "\n"; # on ajout un retour à la ligne pour passer à la boîte suivante.
+} # on fini le for (à bha fallait pas demander un commentaire sur chaque ligne de code)
+printf "\n"; # on ajout un retour à la ligne après notre affichage pour faire un résultat détaché
 
 /* ******************************************************
  *
@@ -76,16 +72,16 @@ for {i in M} {
 
 data;
 
-# Jeu de données n° 1
+# Jeu de donnï¿½es nï¿½ 1
 
-/* Nombre de groupes/personnes/boîtes */
-param nbBox := 4;
+/* Nombre de groupes/personnes/boï¿½tes */
+#param nbBox := 4;
 
-/* Nombre d'objets à répartir  */
-param nbObject := 13;
+/* Nombre d'objets ï¿½ rï¿½partir  */
+#param nbObject := 13;
 
-/* Valeur des objets à répartir  */
-param objectValues :=
+/* Valeur des objets ï¿½ rï¿½partir  */
+/*param objectValues :=
 	 1	2
 	 2	5
 	 3	8
@@ -99,37 +95,34 @@ param objectValues :=
 	11	 32
 	12	 34
 	13	 35
-;
+;#*/
 
 #################################
 
-# Jeu de données n° 2
+# Jeu de donnï¿½es nï¿½ 2
 
-# /* Nombre de groupes/personnes/boîtes */
-#param nbBox := 4;
+# /* Nombre de groupes/personnes/boï¿½tes */
+param nbBox := 4;
 
-# /* Nombre d'objets à répartir  */
-#param nbObject := 14;
+# /* Nombre d'objets ï¿½ rï¿½partir  */
+param nbObject := 14;
 
-# /* Valeur des objets à répartir  */
-#param objectValues :=
-# 	 1	1
-# 	 2	2
-# 	 3	3
-# 	 4	4
-# 	 5	5
-# 	 6	6
-# 	 7	7
-# 	 8	8
-# 	 9	9
-# 	10	10
-# 	11	 11
-# 	12	 12
-# 	13	 13
-# 	14	 14
-# ;
-
-#set N := 1..nbObject;
-#set M := 1..nbBox;
+# /* Valeur des objets ï¿½ rï¿½partir  */
+param objectValues :=
+ 	 1	1
+ 	 2	2
+ 	 3	3
+ 	 4	4
+ 	 5	5
+ 	 6	6
+ 	 7	7
+ 	 8	8
+ 	 9	9
+ 	10	10
+ 	11	 11
+ 	12	 12
+ 	13	 13
+ 	14	 14
+;#*/
 
 end;
