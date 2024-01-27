@@ -87,7 +87,7 @@ voir le .mod
 ## Conclusion
 
 Au travers le la modélisation du problème, puis de sa résolution avec l'aide d'un langage GMPL, nous avons pu nous rendre compte des différences de méthodologie de réflexion et nous confronter à des problèmes inattendus tels que la représentation de charactères mathématiques au format markdown ou l'encodage de charactères spéciaux utilisés en français au format mod pour gusek.
-Un problème d'apparence aussi simple que celui-ci énoncé est en réalité plus complexe à énoncer sous forme de règles mathématiques, quant à la résolution, et à la preuve surtout, pour trouver une solution optimale, il s'agit d'une autre histoire, qu'heureusement la technologie nous aide à résoudre.
+Un problème d'apparence aussi simple que celui-ci est en réalité plus complexe à énoncer sous forme de règles mathématiques, quant à la résolution, et à la preuve surtout, pour trouver une solution optimale, il s'agit d'une autre histoire, qu'heureusement la technologie nous aide à résoudre.
 
 </div>
 
