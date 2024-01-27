@@ -66,7 +66,19 @@ Chaque objet est présent dans une seule boîte :
     \sum_{j=1}^{m}x_{ij} = 1, \forall_i = 1, ..., n
 \]
 
-## Résolution <!-- TODO la suite --> 
+## Résolution
+
+La répartition des objets par boîte à laquelle le programme arrive est la suivante, pour une somme totale de valeur à 105, à diviser entre 4 boîtes :
+
+```
+4 Boxes, total :105: id(value) :
+Box 1 subtotal : 26:  1(1) 2(2) 3(3) 7(7) 13(13)
+Box 2 subtotal : 26:  12(12) 14(14)
+Box 3 subtotal : 27:  4(4) 6(6) 8(8) 9(9)
+Box 4 subtotal : 26:  5(5) 10(10) 11(11)
+```
+
+Ainsi, la différence de répartition entre chaque boîte est réduite au minimum. Ceci peut être observé de manière intuitive en examinant le résultat de la division de 105 par 4. Il s'agit de 26.25. On comprendra alors, de manière intuitive, que la solution optimale de répartition entière sera de trois éléments valant 26 et un valant 27, ce qui est le cas de la solution ci-dessus.
 
 ### Gusek
 
@@ -74,7 +86,8 @@ voir le .mod
 
 ## Conclusion
 
-that was __really ~~not~~__ fun
+Au travers le la modélisation du problème, puis de sa résolution avec l'aide d'un langage GMPL, nous avons pu nous rendre compte des différences de méthodologie de réflexion et nous confronter à des problèmes inattendus tels que la représentation de charactères mathématiques au format markdown ou l'encodage de charactères spéciaux utilisés en français au format mod pour gusek.
+
 
 </div>
 

@@ -1,27 +1,27 @@
 /* ******************************************************
  *
- * SIO 2023-2024 - Labo 3 : Rï¿½partition ï¿½quitable
+ * SIO 2023-2024 - Labo 3 : Répartition équitable
  *
  * Groupe : D
  *
- * Nom et prï¿½nom : Guggisberg Simon
+ * Nom et prénom : Guggisberg Simon
  *
- * Nom et prï¿½nom : Steiner Jeremiah
+ * Nom et prénom : Steiner Jeremiah
  *
 ****************************************************** */
 
 /*
- * Modï¿½lisation :
+ * Modélisation :
  */
 param nbBox; # nombre de box (section data)
 param nbObject; # nombre d'objet à répartir (section data)
 
 set objectsIndexes := 1..nbObject; # tableau des indices des objets
-set boxesIndexes := 1..nbBox; # tableau des indices des boï¿½tes
+set boxesIndexes := 1..nbBox; # tableau des indices des boîtes
 
-param objectValues{objectsIndexes}; # valeur attribuï¿½ ï¿½ chaque objet
+param objectValues{objectsIndexes}; # valeur attribuée à chaque objet
 
-var isObjectInBox{objectsIndexes, boxesIndexes}, binary; # valeur binaire pour un couple boï¿½te - objet
+var isObjectInBox{objectsIndexes, boxesIndexes}, binary; # valeur binaire pour un couple boîte - objet
 
 var auxiliaryVarToMinimize; # Variable auxiliaire pour le minimum
 
@@ -29,7 +29,7 @@ var auxiliaryVarToMinimize; # Variable auxiliaire pour le minimum
  * Contraintes :
  */
 
-# tous les objets doivent ï¿½tre dans 1 et 1 seule boï¿½te
+# tous les objets doivent être dans 1 et 1 seule boîte
 subject to OneBoxPerObject{i in objectsIndexes}:
     # on sommes les appartenance de chaque objets au boîtes pour vérifier qu'il  sont dans une seule
     sum{j in boxesIndexes} isObjectInBox[i, j] = 1;
@@ -43,12 +43,12 @@ subject to MinimizeTotalConstraint{j in boxesIndexes}:
 * Fonction Objectif
 */
 
-# maximize t, the sub total for each box who's the minimum
+# maximise t, le sous total de chaque boîte étant le minimum
 maximize MinimizeTotal: auxiliaryVarToMinimize;
 
 solve; # on demande de resoudre le problème
 
-# Imprime les rï¿½sultats de chaque objet par boï¿½te
+# Imprime les résultats de chaque objet par boîte
 # affiche une ligne avec le nombre de box et la sommes totales des valeurs
 printf "\n%d Boxes, total :%d: id(value) :\n", nbBox, sum{j in objectsIndexes} objectValues[j]; 
 # on boucle sur les indices des boîtes
@@ -59,10 +59,10 @@ for {i in boxesIndexes} {
     for {j in objectsIndexes} {
         # on affiche l'indice de l'objet et la valeur de celui-ci 
         printf {0..0: isObjectInBox[j, i] = 1} " %d(%d)", j, objectValues[j];
-    } # on fini le for (à bha fallait pas demander un commentaire sur chaque ligne de code)
-    printf "\n"; # on ajout un retour à la ligne pour passer à la boîte suivante.
-} # on fini le for (à bha fallait pas demander un commentaire sur chaque ligne de code)
-printf "\n"; # on ajout un retour à la ligne après notre affichage pour faire un résultat détaché
+    } # on finit le for (à bha fallait pas demander un commentaire sur chaque ligne de code)
+    printf "\n"; # on ajoute un retour à la ligne pour passer à la boîte suivante.
+} # on finit le for (à bha fallait pas demander un commentaire sur chaque ligne de code)
+printf "\n"; # on ajoute un retour à la ligne après notre affichage pour faire un résultat détaché
 
 /* ******************************************************
  *
@@ -72,15 +72,15 @@ printf "\n"; # on ajout un retour à la ligne après notre affichage pour faire un
 
 data;
 
-# Jeu de donnï¿½es nï¿½ 1
+# Jeu de données nï¿½ 1
 
-/* Nombre de groupes/personnes/boï¿½tes */
+/* Nombre de groupes/personnes/boîtes */
 #param nbBox := 4;
 
-/* Nombre d'objets ï¿½ rï¿½partir  */
+/* Nombre d'objets à répartir  */
 #param nbObject := 13;
 
-/* Valeur des objets ï¿½ rï¿½partir  */
+/* Valeur des objets à répartir  */
 /*param objectValues :=
 	 1	2
 	 2	5
@@ -99,15 +99,15 @@ data;
 
 #################################
 
-# Jeu de donnï¿½es nï¿½ 2
+# Jeu de données nï¿½ 2
 
-# /* Nombre de groupes/personnes/boï¿½tes */
+# /* Nombre de groupes/personnes/boîtes */
 param nbBox := 4;
 
-# /* Nombre d'objets ï¿½ rï¿½partir  */
+# /* Nombre d'objets à répartir  */
 param nbObject := 14;
 
-# /* Valeur des objets ï¿½ rï¿½partir  */
+# /* Valeur des objets à répartir  */
 param objectValues :=
  	 1	1
  	 2	2
